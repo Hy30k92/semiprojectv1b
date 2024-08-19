@@ -3,39 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>세미프로잭트</title>
+    <link rel="stylesheet" href="/static/css/bs5/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/project.css">
     <style>
-        table { margin: 100px auto;
-            border-collapse: collapse}
-        th, td { padding: 5px 8px}
-
     </style>
 </head>
 <body>
-    <div id="wrap">
-        <header><h1>세미프로잭트 회원정보</h1></header>
-        <nav><ul id="menu">
-            <li><a href="/">home</a></li>
-            <li><a href="/member/join"> 회원가입 </a></li>
-            <li><a href="/member/login">로그인</a></li>
-            <li><a href="/board/list">게시판</a></li>
-            <li><a href="/member/myinfo">회원정보</a></li>
+<div id="wrap" class="container">
+    <header class="py-3"><h1>세미프로잭트 회원정보</h1></header>
+    <nav id="menu">
+        <ul class="nav nav-fill">
+            <li class="nav-item"><a class="nav-link" href="/">home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/member/join"> 회원가입 </a></li>
+            <li class="nav-item"><a class="nav-link" href="/member/login">로그인</a></li>
+            <li class="nav-item"><a class="nav-link" href="/board/list">게시판</a></li>
+            <li class="nav-item"><a class="nav-link" href="/member/myinfo">회원정보</a></li>
         </ul>
-        </nav>
+    </nav>
         <hr id="hr1">
         <main>
             <h2>회원정보</h2>
-                <table>
-                        <tr><th>아이디</th><td>qwer1234</td></tr>
-                        <tr><th>이름</th><td>하이</td></tr>
-                        <tr><th>이메일</th><td>asdf@naver.com</td></tr>
-                        <tr><th>가입일</th><td>2014-12-14 12:13:34</td></tr>
-                </table>
+            <div class="d-flex justify-content-center align-items-center" style= "height: 65vh">
+            <table class="table w-25 table-bordered table-striped">
+                <tr><th>아이디</th><td>qwer1234</td></tr>
+                <tr><th>이름</th><td>하이</td></tr>
+                <tr><th>이메일</th><td>asdf@naver.com</td></tr>
+                <tr><th>가입일</th><td>2024-08-19 12:13:34</td></tr>
+            </table>
+            </div>
+        </main>
             <footer>
                 <hr id="hr2">
-                <p id="copy">copyright &copy; 2024. hyeok. all rights reserved.</p>
+                <p id="copy" class="text-center">copyright &copy; 2024. hyeok. all rights reserved.</p>
             </footer>
-        </main>
+
     </div>
 </body>
 </html>
