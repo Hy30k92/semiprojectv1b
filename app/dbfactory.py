@@ -1,9 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from app.model import member
 from app.settings import config
 
-engine = create_engine(config.db, echo=True)
+engine = create_engine(config.dbconn, echo=True)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -17,7 +18,7 @@ def get_db():
 
 
 async def db_startup():
-    pass
+    member.Base.metadata.create_all(engine)
 
 
 async def db_shutdown():

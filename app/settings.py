@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     passwd: str = ''
     dbname: str = 'clouds2024'
     dburl: str = ''
-    dbconn: str = f'ssqlite:///app/{dbname}.db'
+    dbconn: str = f'sqlite:///app/{dbname}.db'
 
 
 config = Settings()

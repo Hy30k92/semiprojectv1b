@@ -6,9 +6,9 @@ from app.model.base import Base
 
 
 class Member(Base):
-    __table__ = 'member'
+    __tablename__ = 'member'
 
-    mno: Mapped[int] = mapped_column(primary_key=True,autoincrement=True,  index=True)
+    mno: Mapped[int] = mapped_column(primary_key=True, autoincrement=True,  index=True)
     userid: Mapped[str] = mapped_column(index=True)
     passwd: Mapped[str]
     name: Mapped[str]
