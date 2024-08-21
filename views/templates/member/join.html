@@ -1,7 +1,19 @@
 {% extends 'include/base.html' %}
 
+
 {% block title %}
 세미프로젝트 회원가입
+{% endblock %}
+
+{% block style %}
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+        async defer></script>
+<script type="text/javascript">
+    var onloadCallback = () => {
+        grecaptcha.render('captcha', { 'sitekey' :''});
+    };
+</script>
 {% endblock %}
 
 {% block main %}
@@ -23,9 +35,14 @@
                 <div class="row my-2"><label for="name" class="col-form-label col-4 text-end">이름</label>
                     <div class="col-7">
                     <input type="text" name="name" id="name" required class="form-control"></div></div>
+
                 <div class="row my-2"><label for="email" class="col-form-label col-4 text-end">이메일</label>
                     <div class="col-7">
                     <input type="email" name="email" id="email" required class="form-control"></div></div>
+
+                <div class="row my-2"><label for="captcha" class="col-form-label col-4 text-end">자동가입방지</label>
+                    <div class="col-7"><div id ="captcha"></div></div></div>
+
                 <div id="bt" class ="row">
                     <label class="col-4 text-end"></label>
                     <div class="col-7">
@@ -65,7 +82,11 @@
                 alert('이메일을 입력하세요!');
                 frm.email.focus();
                 return false;
+            } else if (grecaptcha.getResponse() ===''){
+                alert('자동가입 방지를 클릭하세요!');
+                return false;
             } else{
+                // console.log('--' ,grecaptcha.getResponse());
                 return true;
             }
         };
@@ -73,6 +94,7 @@
         joinbtn.addEventListener('click', () => {
             //회원정보 입력 여부 검사
             if (!checkjoinfrm(joinfrm)) return
+
            // 폼에 입력된 회원 정보를 초기화함
            const formData = new FormData(joinfrm);
 
@@ -82,6 +104,8 @@
             formData.forEach((val, key) => {
                jsondata[key] = val;
             });
+            //캡챠 응답코드추가
+            jsondata['captcha'] = grecaptcha.getResponse();
             console.log(jsondata);
 
             // ajax 를 이용해서 서버로 json 데이터 전송하고, 결과 받음
