@@ -37,11 +37,11 @@ async def joinok(member: NewMember, db: Session = Depends(get_db)):
         return RedirectResponse(url='/member/error', status_code=303)
 
 @member_router.get('/login', response_class=HTMLResponse)
-async def loginok(req: Request ):
+async def login(req: Request ):
     return templates.TemplateResponse('member/login.html', {'request': req})
 
 @member_router.post('/login', response_class=HTMLResponse)
-async def login(req: Request, db: Session = Depends(get_db)):
+async def loginok(req: Request, db: Session = Depends(get_db)):
     data = await req.json() # 클라이언트가 보낸 데이터를 request 객체로 받음
     try:
         print('전송한 데이터 : ', data)
@@ -54,7 +54,7 @@ async def login(req: Request, db: Session = Depends(get_db)):
         return RedirectResponse(url=redirect_url, status_code=303)
 
     except Exception as ex:
-        print(f'▶▶▶login 오류 : {str(ex)}')
+        print(f'▷▷▷loginok 오류 : {str(ex)}')
         return RedirectResponse(url='/member/error', status_code=303)
 
 @member_router.get('/logout', response_class=HTMLResponse)
@@ -69,7 +69,16 @@ async def loginfail(req: Request):
 
 @member_router.get('/myinfo', response_class=HTMLResponse)
 async def myinfo(req: Request):
-    return templates.TemplateResponse('member/myinfo.html', {'request': req})
+    try:
+        if 'logined_uid' not in req.session:       # 로그인 하지 않았다면 로그인으로 이동
+            return templates.TemplateResponse('member/login.html', {'request': req})
+
+        return templates.TemplateResponse('member/myinfo.html', {'request': req})
+
+    except Exception as ex:
+         print(f'▷▷▷ myinfo 오류 : {str(ex)}')
+         return RedirectResponse(url='/member/error', status_code=303)
+
 
 @member_router.get('/error', response_class=HTMLResponse)
 async def error(req: Request):
