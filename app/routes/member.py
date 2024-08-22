@@ -47,13 +47,13 @@ async def login(req: Request, db: Session = Depends(get_db)):
         print('전송한 데이터 : ', data)
         redirect_url = '/member/loginfail' # 로그인 실패시
 
-        if MemberService.login_member(db. data): # 로그인 성공시
+        if MemberService.login_member(db, data): # 로그인 성공시
             redirect_url = '/member/myinfo' # myinfo로 이동
 
         return RedirectResponse(url=redirect_url, status_code=303)
 
     except Exception as ex:
-        print(f'login 오류 : {str(ex)}')
+        print(f'▶▶▶login 오류 : {str(ex)}')
         return RedirectResponse(url='/member/error', status_code=303)
 
 
