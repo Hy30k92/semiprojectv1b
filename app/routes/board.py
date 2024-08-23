@@ -9,13 +9,21 @@ from app.service.board import BoardService
 board_router = APIRouter()
 templates = Jinja2Templates(directory='views/templates')
 
+# 페이징 알고리즘
+# 페이지당 게시글 수 : 25
+# 1page : 1 ~ 25
+# 2page : 26 ~ 50
+# 3page : 51 ~ 75
+# ...
+# npage : (n - 1) * 25 + 1 ~ (n - 1) * 25 + 25
 
-@board_router.get('/list', response_class=HTMLResponse)
-async def list(req: Request, db: Session = Depends(get_db)):
+
+@board_router.get('/list/{cpg}', response_class=HTMLResponse)
+async def list(req: Request, cpg: int, db: Session = Depends(get_db)):
     try:
-        bdlist = BoardService.select_board(db)
-        # print(bdlist)
-        return templates.TemplateResponse('board/list.html', {'request': req, 'bdlist': bdlist})
+        bdlist = BoardService.select_board(db, cpg)
+        return templates.TemplateResponse('board/list.html',
+                                          {'request': req, 'bdlist': bdlist, 'cpg': cpg})
 
     except Exception as ex:
         print(f' ▷▷▷ list 오류발생 : {str(ex)}')
