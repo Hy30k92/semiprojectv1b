@@ -14,8 +14,8 @@ templates = Jinja2Templates(directory='views/templates')
 async def list(req: Request, db: Session = Depends(get_db)):
     try:
         bdlist = BoardService.select_board(db)
-        print(bdlist)
-        return templates.TemplateResponse('board/list.html', {'request': req})
+        # print(bdlist)
+        return templates.TemplateResponse('board/list.html', {'request': req, 'bdlist': bdlist})
 
     except Exception as ex:
         print(f' ▷▷▷ list 오류발생 : {str(ex)}')
