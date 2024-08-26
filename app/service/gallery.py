@@ -2,6 +2,9 @@ import os
 from datetime import datetime
 
 from fastapi import Form
+from sqlalchemy import insert
+
+from app.model.gallery import GalAttach, Gallery
 from app.schema.gallery import NewGallery
 
 UPLOAD_PATH = 'C:/java/nginx-1.26.2/html/cdn/img/'
@@ -28,4 +31,25 @@ async def process_upload(files):
     return attachs
 
 class GalleryService:
-    pass
+    @staticmethod
+    def insert_gallery(gal, attachs, db):
+        try:
+            stmt = insert(Gallery).values(userid=gal.userid,
+                            title=gal.title, contents=gal.contents)
+            result = db.execute(stmt)
+
+            # 방금 생성ㅎ안 레코드의 기본 키 값 : inserted_primary_key
+            inserted_gno = result.inserted_primary_key[0]
+            for attach in attachs:
+                data = {'fname': attach[0], 'fsize': attach[1],
+                        'gno': inserted_gno }
+                stmt = insert(GalAttach).values(data)
+                result = db.execute(stmt)
+
+            db.commit()
+
+            return result
+
+        except Exception as ex:
+            print(f' ▶▶▶ insert_gallery 에서 오류 발생: {str(ex)} ')
+            db.rollback()
