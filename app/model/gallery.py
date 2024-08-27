@@ -7,7 +7,7 @@ from app.model.base import Base
 
 
 class Gallery(Base):
-    __tablename__ = 'Gallery'
+    __tablename__ = 'gallery'
 
     gno: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, index=True)
     title: Mapped[str] = mapped_column(index=True)
