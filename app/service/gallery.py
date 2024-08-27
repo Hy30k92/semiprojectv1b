@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 
 from fastapi import Form
-from sqlalchemy import insert, select
+from sqlalchemy import insert, select, distinct, func
 from sqlalchemy.orm import aliased
 
 from app.model.gallery import GalAttach, Gallery
@@ -59,13 +59,14 @@ class GalleryService:
     @staticmethod
     def select_gallery(cpg, db):
         try:
-            stmt = select(Gallery, GalAttach,
-            Gallery.gno, Gallery.title, Gallery.userid,
-            Gallery.regdate, Gallery.views, GalAttach.fname)\
-                .join_from(Gallery, GalAttach)\
-                .order_by(Gallery.gno.desc()).limit(25)
-            result = db.execute(stmt)
-
+            stmt = select(distinct(Gallery.gno).label('gno'),
+                  Gallery.title, Gallery.userid,
+                  Gallery.regdate, Gallery.views,
+                  func.first_value(GalAttach.fname) \
+                  .over(partition_by=Gallery.gno).label('fname')) \
+            .join_from(Gallery, GalAttach) \
+            .order_by(Gallery.gno.desc()).limit(25)
+            result = db.execute(stmt).fetchall()
             return result
 
         except Exception as ex:
@@ -75,6 +76,7 @@ class GalleryService:
     @staticmethod
     def selectone_gallery(gno, db):
         try:
+
            stmt = select(Gallery, GalAttach)\
                .join_from(Gallery, GalAttach)\
                .where(Gallery.gno == gno)

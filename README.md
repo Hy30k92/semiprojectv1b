@@ -4,7 +4,7 @@
 ## 프로젝트에 사용한 모듈들
 + FastAPI, uvicorn
 + Jinja2
-+ sqlalchemy
++ sqlalchemy  
 
 
 ## 프로젝트 기본 구조
