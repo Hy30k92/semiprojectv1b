@@ -9,9 +9,10 @@ from app.schema.gallery import NewGallery
 
 UPLOAD_PATH = 'C:/java/nginx-1.26.2/html/cdn/img/'
 
-def get_gallery_data(title: str = Form(...),
-                     userid: str = Form(...), contents: str = Form(...)):
-    return NewGallery(userid=userid, title=title, contents=contents)
+def get_gallery_data(title: str = Form(...), userid: str = Form(...),
+                     contents: str = Form(...), captcha: str = Form(...)):
+    return NewGallery(userid=userid, title=title,
+                      contents=contents, captcha=captcha)
 
 
 async def process_upload(files):
