@@ -52,5 +52,18 @@ async def write(req: Request):
 
 
 @board_router.get('/view/{bno}', response_class=HTMLResponse)
-async def view(req: Request ):
+async def view(req: Request):
     return templates.TemplateResponse('board/view.html', {'request': req})
+
+
+@board_router.get('/list/{ftype}/{fkey}/{cpg}', response_class=HTMLResponse)
+async def find(req: Request, ftype: str, fkey: str, cpg: int, db: Session = Depends(get_db)):
+    try:
+        stpgb = int((cpg - 1) / 10) * 10 + 1
+        bdlist = BoardService.find_select_board(db, ftype, '%'+fkey+'%', cpg)
+        return templates.TemplateResponse('board/list.html',
+                                          {'request': req, 'bdlist': bdlist, 'cpg': cpg, 'stpgb': stpgb})
+
+    except Exception as ex:
+        print(f' ▷▷▷ find 오류발생 : {str(ex)}')
+        return RedirectResponse(url='/member/error', status_code=303)
