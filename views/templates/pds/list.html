@@ -46,8 +46,12 @@
             </select>
                 <input type="text" name="search" id="search">
                 <button type="button" id="fidbtn">검색하기</button>
-                <button type="button" id="writebtn" onclick="location.href='/pds/write'">글쓰기</button></td>
-        </tr>
+            <td colspan="2">
+                {% if 'logined_uid' in request.session %}
+                <button type="button" id="writebtn">글쓰기</button>
+                {% endif%}
+            </td></tr>
+
         <tr><th>번호</th><th>제목</th><th>작성자</th><th>작성일</th><th>조회</th></tr>
 
         </thead>
@@ -79,6 +83,15 @@
             <li>7</li><li>8</li><li>9</li><li>10</li><li>다음</li></ul>
     </div>
 </main>
-
-
 {% endblock %}
+
+{% block script %}
+<script>
+    let writebtn = document.querySelector('#writebtn');
+
+    writebtn.addEventListener('click', () => {
+        location.href = '/board/write';
+    })
+</script>
+{% endblock %}
+

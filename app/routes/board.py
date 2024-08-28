@@ -44,7 +44,10 @@ async def list(req: Request, cpg: int, db: Session = Depends(get_db)):
 
 
 @board_router.get('/write', response_class=HTMLResponse)
-async def write(req: Request ):
+async def write(req: Request):
+    if 'logined_uid' not in req.session: # 로그인 하지않으면 글쓰기 금지
+        return RedirectResponse('/member/login', 303)
+
     return templates.TemplateResponse('board/write.html', {'request': req})
 
 
