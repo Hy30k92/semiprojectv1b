@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.model.base import Base
 
 # 양방향 관계설정
-class Gallery(Base):
+class Pds(Base):
     __tablename__ = 'pds'
 
     pno: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, index=True)
@@ -25,7 +25,7 @@ class PdsAttach(Base):
     fname: Mapped[str] = mapped_column(nullable=False)
     fsize: Mapped[int] = mapped_column(default=0)
     regdate: Mapped[datetime] = mapped_column(default=datetime.now)
-    gallery = relationship('Pds', back_populates='attachs') # 하나의 attach 는 하나의 gallery 에 속함 ( 1:1 )
+    pds = relationship('Pds', back_populates='attachs') # 하나의 attach 는 하나의 gallery 에 속함 ( 1:1 )
 
 
 
