@@ -51,6 +51,6 @@ async def write(req: Request):
     return templates.TemplateResponse('board/write.html', {'request': req})
 
 
-@board_router.get('/view', response_class=HTMLResponse)
+@board_router.get('/view/{bno}', response_class=HTMLResponse)
 async def view(req: Request ):
     return templates.TemplateResponse('board/view.html', {'request': req})
