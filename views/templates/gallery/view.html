@@ -1,23 +1,22 @@
 {% extends 'include/base.html' %}
 
 {% block title %}
-세미 프로젝트 - 게시판 본문보기
+세미프로젝트 - 갤러리 본문보기
 {% endblock %}
 
-{% block stlye %}
+{% block style %}
 <style>
-    table{ width: 650px; margin: 0 auto;}
-    tr {height: 40px}
+    table { width: 650px; margin: 0 auto; }
+    tr { height: 40px }
     th { width: 100px }
-    tr:nth-child(4){ vertical-align: top }
-    #listbtn {margin-left:100px }
-
+    tr:nth-child(4) { vertical-align: top }
+    #listbtn { margin-left: 100px }
 </style>
 {% endblock %}
 
 {% block main %}
 <main>
-    <h2>본문글</h2>
+    <h2>갤러리 본문보기</h2>
     <table>
         <tr><th>제목</th><td>{{ gallery.title }}</td></tr>
         <tr><th>작성자</th><td>{{ gallery.userid }}</td></tr>
@@ -25,7 +24,7 @@
         <tr><th>본문</th><td>{{ gallery.contents }}
             {% for ga in gallery.attachs %}
             <img src="http://127.0.0.1/cdn/img/{{ ga.fname }}"
-                class="img-fluid">
+                 class="img-fluid">
             {% endfor %}
         </td></tr>
         <tr><td colspan="2">
