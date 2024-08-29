@@ -1,8 +1,8 @@
 from sqlalchemy import select, or_, update
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, contains_eager
 
-from app.model.board import Board
+from app.model.board import Board, Reply
 
 
 class BoardService:
@@ -63,8 +63,10 @@ class BoardService:
             db.execute(stmt)
 
             # 본문글 + 댓글 읽어오기
-            stmt = select(Board).options(joinedload(Board.replys))\
-                .where(Board.bno == bno)
+            stmt = select(Board).join(Board.replys)\
+                .options(contains_eager(Board.replys))\
+                .where(Board.bno == bno)\
+                .order_by(Reply.rpno)
 
 
             result = db.execute(stmt).scalars().first()

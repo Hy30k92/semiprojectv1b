@@ -21,7 +21,7 @@ class Reply(Base):
     __tablename__ = 'reply'
 
     rno: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, index=True)
-    rerply: Mapped[str] = mapped_column(index=True)
+    reply: Mapped[str] = mapped_column(index=True)
     userid: Mapped[str] = mapped_column(ForeignKey('member.userid'), index=True)
     regdate: Mapped[datetime] = mapped_column(default=datetime.now)
     bno: Mapped[int] = mapped_column(ForeignKey('board.bno'))
