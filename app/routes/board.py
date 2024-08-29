@@ -91,8 +91,8 @@ async def find(req: Request, ftype: str, fkey: str, cpg: int, db: Session = Depe
 async def reply(req: Request, reply: NewReply, db: Session = Depends(get_db)):
 
     try:
-        print('==>', reply)
-        return RedirectResponse('/board/list/1',303)
+        if BoardService.insert_reply(db, reply):
+            return RedirectResponse(f'/board/view/{reply.bno}',303)
 
     except Exception as ex:
         print(f' ▷▷▷ reply 오류발생 : {str(ex)}')
