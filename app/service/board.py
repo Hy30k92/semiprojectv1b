@@ -1,5 +1,6 @@
 from sqlalchemy import select, or_, update
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import joinedload
 
 from app.model.board import Board
 
@@ -61,8 +62,11 @@ class BoardService:
                     .values(views = Board.views + 1)
             db.execute(stmt)
 
-            # 본문글 읽어오기
-            stmt = select(Board).where(Board.bno == bno)
+            # 본문글 + 댓글 읽어오기
+            stmt = select(Board).options(joinedload(Board.replys))\
+                .where(Board.bno == bno)
+
+
             result = db.execute(stmt).scalars().first()
 
             db.commit()
