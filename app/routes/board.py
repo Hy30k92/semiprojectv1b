@@ -66,8 +66,7 @@ async def view(bno: int, req: Request, db: Session = Depends(get_db)):
 
     try:
         boards = BoardService.selectone_board(bno, db)
-        return templates.TemplateResponse('board/view.html',
-                      {'request': req, 'boards': boards, })
+        return templates.TemplateResponse('board/view.html', {'request': req, 'boards': boards, })
 
     except Exception as ex:
         print(f' ▷▷▷ view 오류발생 : {str(ex)}')
