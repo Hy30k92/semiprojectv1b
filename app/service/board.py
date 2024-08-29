@@ -51,7 +51,16 @@ class BoardService:
 
 
 
+    @staticmethod
+    def selectone_board(bno, db):
+        try:
+            stmt = select(Board).where(Board.bno == bno)
+            result = db.execute(stmt)
 
+            return result
+
+        except SQLAlchemyError as ex:
+            print(f'▶▶▶ selectone_board 오류발생 : {str(ex)}')
 
 
 
