@@ -12,13 +12,14 @@ class BoardService:
     def select_board(db, cpg):
         try:
             stbno = (cpg - 1) * 25
+            # 총 게시글 수 조회
+            cnt = db.execute(func.count(Board.bno)).scalar()
+
             stmt = select(Board.bno, Board.title, Board.userid,
-                          Board.regdate, Board.views)\
-                    .order_by(Board.bno.desc())\
-                    .offset(stbno).limit(25)
+                          Board.regdate, Board.views).order_by(Board.bno.desc()).offset(stbno).limit(25)
             result = db.execute(stmt)
 
-            return result
+            return result, cnt
 
         except SQLAlchemyError as ex:
             print(f'▶▶▶ select_board 오류발생 : {str(ex)}')
@@ -40,14 +41,18 @@ class BoardService:
             if ftype == 'userid': myfilter = Board.userid.like(fkey)
             elif ftype == 'contents': myfilter = Board.userid.like(fkey)
             elif ftype == 'titcont': myfilter = \
-                or_(Board.contents.like(fkey),Board.contents.like(fkey))
+                or_(Board.contents.like(fkey), Board.contents.like(fkey))
+
+            # 검색결과에 대한 총 게시글 수 조회
+            cnt = db.query(func.count(Board.bno))\
+                .filter(myfilter).scalar()
 
             stmt = stmt.filter(myfilter)\
                 .order_by(Board.bno.desc()) \
                 .offset(stbno).limit(25)
             result = db.execute(stmt)
 
-            return result
+            return result, cnt
 
         except SQLAlchemyError as ex:
             print(f'▶▶▶ find_select_board 오류발생 : {str(ex)}')

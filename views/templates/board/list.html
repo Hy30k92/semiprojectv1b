@@ -68,7 +68,7 @@
     <div class="pagnation">
         <ul>
             {% if cpg > 1 %}
-            <li><a href="/board/list/{{ cpg - 1 }}">이전</a></li>
+            <li><a href="{{ baseurl }}{{ cpg - 1 }}">이전</a></li>
             {% else %}
             <li>이전</li>
             {% endif %}
@@ -76,7 +76,7 @@
             {% for idx in range(stpgb, stpgb+10) %}
             {% if idx <= allpage %} {# idx가 allpage보다 같거나작으면 페이지네이션 출력 #}
                 {% if cpg != idx %}
-                <li><a href="/board/list/{{ idx }}">{{ idx }}</a></li>
+                <li><a href="{{ baseurl }}{{ idx }}">{{ idx }}</a></li>
                 {% else %}
                 <li class="cpg">{{ idx }}</li>
                 {% endif %}
@@ -84,7 +84,7 @@
             {% endfor %}
 
             {% if cpg < allpage %} {# 현재페이지가 allpage보다 작으면 다음링크 출력 #}
-            <li><a href="/board/list/{{ cpg + 1 }}">다음</a></li>
+            <li><a href="{{ baseurl }}{{ cpg + 1 }}">다음</a></li>
             {% else %}
             <li>다음</li>
             {% endif %}
@@ -109,7 +109,7 @@
         let ftype = document.querySelector('#findtype').value;
         let fkey = document.querySelector('#search').value;
 
-        if (fkey = '' ) {
+        if (fkey === '' ) {
             alert('검색 내용을 작성하세요!1')
             return;
         }
