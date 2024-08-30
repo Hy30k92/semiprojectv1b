@@ -53,7 +53,6 @@ async def view(req: Request, gno: int, db: Session = Depends(get_db)):
     try:
         gallery = GalleryService.selectone_gallery(gno, db)
 
-
         return templates.TemplateResponse('gallery/view.html',
                      {'request': req, 'gallery': gallery})
 
