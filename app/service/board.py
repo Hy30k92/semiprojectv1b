@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import select, or_, update, insert, func, delete
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import joinedload, contains_eager
@@ -125,4 +127,21 @@ class BoardService:
 
         except SQLAlchemyError as ex:
             print(f'▶▶▶ delete_board 오류발생 : {str(ex)}')
+            db.rollback()
+
+    @staticmethod
+    def update_board(db, board):
+        try:
+            stmt = update(Board).values(title=board.title,
+                userid=board.userid, contents=board.contents,
+                regdate=datetime.now())\
+                .where(Board.bno == board.bno)
+            result = db.execute(stmt)
+
+            db.commit()
+
+            return result
+
+        except SQLAlchemyError as ex:
+            print(f'▶▶▶ update_board 오류발생 : {str(ex)}')
             db.rollback()
