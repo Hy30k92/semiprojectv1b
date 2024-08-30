@@ -86,7 +86,7 @@
                           class="btn btn-warning">대댓글 작성</button>
                </div>
             </div>
-            <input type="hidden" name="usesrid" value="987xyz">
+            <input type="hidden" name="userid" value="987xyz">
             <input type="hidden" name="bno" value="{{ boards.bno }}">
             <input type="hidden" name="rpno" id="rpno" value="" >
          </form>
@@ -131,7 +131,6 @@
    };
 
    rpfrm?.addEventListener('submit',(e) => {
-      e.preventDefault();
       e.preventDefault();
       const formData = new FormData(rpfrm);
 

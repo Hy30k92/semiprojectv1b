@@ -88,12 +88,23 @@ async def find(req: Request, ftype: str, fkey: str, cpg: int, db: Session = Depe
 
 
 @board_router.post('/reply', response_class=HTMLResponse)
-async def reply(req: Request, reply: NewReply, db: Session = Depends(get_db)):
+async def reply(reply: NewReply, db: Session = Depends(get_db)):
 
     try:
         if BoardService.insert_reply(db, reply):
             return RedirectResponse(f'/board/view/{reply.bno}',303)
 
     except Exception as ex:
-        print(f' ▷▷▷ reply 오류발생 : {str(ex)}')
+        print(f' ▷▷▷ replyok 오류발생 : {str(ex)}')
+        return RedirectResponse(url='/member/error', status_code=303)
+
+@board_router.post('/rreply', response_class=HTMLResponse)
+async def rreplyok(reply: NewReply, db: Session = Depends(get_db)):
+
+    try:
+        if BoardService.insert_rreply(db, reply):
+            return RedirectResponse(f'/board/view/{reply.bno}',303)
+
+    except Exception as ex:
+        print(f' ▷▷▷ rreplyok 오류발생 : {str(ex)}')
         return RedirectResponse(url='/member/error', status_code=303)
